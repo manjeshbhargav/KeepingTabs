@@ -1,0 +1,66 @@
+body {
+    margin: 0;
+    padding: 0;
+    width: 400px;
+    height: 500px;
+}
+ul {
+    margin: 0;
+    padding: 0;
+}
+li {
+    display: block;
+}
+div.search {
+    padding-bottom: 5px;
+}
+div.search > input {
+    width: 100%;
+    outline: none;
+    padding: 10px 15px;
+    border: none;
+    box-shadow: 0 5px 10px #eee, 0 1px #ddd;
+}
+ul.tabs {
+    height: 460px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+ul.tab {
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background 0.2s linear,
+                color 0.2s linear,
+                border 0.2s linear;
+}
+ul.tab:hover {
+    border-left: 2px solid #2e2efe;
+    background-color: #eee;
+    color: #2e2efe;
+}
+ul.tab > li {
+    display: inline-block;
+    vertical-align: middle;
+}
+ul.tab img {
+    width: 20px;
+    height: 20px;
+}
+ul.tab > li.favicon {
+    width: 20px;
+    margin-right: 5px;
+}
+ul.tab > li.title {
+    width: calc(100% - 35px);
+}
+ul.tab span.url {
+    font-size: 10px;
+    color: #888;
+}
+::-webkit-scrollbar {
+    width: 3px;
+    box-shadow: 0 0 5px #eee inset;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #ddd;
+}
