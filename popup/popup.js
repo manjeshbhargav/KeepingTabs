@@ -24,7 +24,6 @@ var focusTab = function () {
 //
 // Get unique array elements.
 //
-//
 var uniqueArray = function (array) {
     var uniqueMap = {};
 
