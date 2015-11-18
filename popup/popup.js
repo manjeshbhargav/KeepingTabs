@@ -7,7 +7,7 @@ var KeepingTabs = {
                         <img src="{favIconUrl}">\
                     </li>\
                     <li class="title">\
-                        <span>{title}</span><br>\
+                        <span class="title">{title}</span><br>\
                         <span class="url">{url}</span>\
                     </li>\
                 </ul>\
@@ -35,6 +35,7 @@ var uniqueArray = function (array) {
         return true;
     });
 };
+//
 // Render the list of open tabs.
 //
 var renderTabs = function (tabs) {
@@ -52,7 +53,7 @@ var renderTabs = function (tabs) {
                 tabs[t].favIconUrl
             ).replace(
                 /\{title}/,
-                tabs[t].title
+                tabs[t].title.replace(/</g, '&lt;').replace(/>/g, '&gt;')
             ).replace(
                 /\{url}/,
                 tabs[t].url
@@ -74,45 +75,61 @@ var renderTabs = function (tabs) {
     for (var i = 0; i < tabsList.length; i++) {
         tabsList[i].addEventListener('click', focusTab);
     }
+
+    return tabsList;
 };
 // Get the list of open tabs from the background. Then configure the search
 // box to filter the list based on whatever is typed into it.
 chrome.runtime.sendMessage({type: 'getopentabs'}, function (tabs) {
-    renderTabs(tabs);
+    var tabsList = renderTabs(tabs);
     document.querySelector('div.search > input').addEventListener(
         'keyup',
         function () {
             var self = this;
             setTimeout(function () {
-                var re = new RegExp(self.value, 'gi');
-                // Filter the list of open tabs based on the search box value.
-                var ftabs = JSON.parse(JSON.stringify(
-                    tabs.filter(function (tab) {
-                        return (re.test(tab.title) || re.test(tab.url));
-                    })
-                ));
-                // For open tab items that match the search box value, highlight
-                // the portion that matches by making it bold.
-                ftabs.forEach(function (tab) {
-                    var tMatches = uniqueArray(tab.title.match(re) || []),
+                var re = new RegExp(self.value, 'gi'),
+                    tMatches,
+                    uMatches,
+                    tSpan,
+                    uSpan,
+                    tab,
+                    i;
+
+                for (i = 0; i < tabsList.length; i++) {
+                    // Get the data associated with this tab element.
+                    tab = JSON.parse(
+                        tabsList[i].getAttribute('data-tab').replace(/'/g, '"')
+                    );
+                    // If the tab item matches the search box value, highlight
+                    // the portion that matches by making it bold.
+                    if (re.test(tab.title) || re.test(tab.url)) {
+                        tMatches = uniqueArray(tab.title.match(re) || []);
                         uMatches = uniqueArray(tab.url.match(re) || []);
+                        tSpan = tabsList[i].querySelector('span.title');
+                        uSpan = tabsList[i].querySelector('span.url');
 
-                    tMatches.forEach(function (match) {
-                        tab.title = tab.title.replace(
-                            new RegExp(match, 'g'),
-                            '<strong>' + match + '</strong>'
-                        );
-                    });
+                        tMatches.forEach(function (match) {
+                            tab.title = tab.title.replace(
+                                new RegExp(match, 'g'),
+                                '<strong>' + match + '</strong>'
+                            );
+                        });
+                        uMatches.forEach(function (match) {
+                            tab.url = tab.url.replace(
+                                new RegExp(match, 'g'),
+                                '<strong>' + match + '</strong>'
+                            );
+                        });
 
-                    uMatches.forEach(function (match) {
-                        tab.url = tab.url.replace(
-                            new RegExp(match, 'g'),
-                            '<strong>' + match + '</strong>'
-                        );
-                    });
-                });
-                // Re-render the new filtered list of tabs.
-                renderTabs(ftabs);
+                        tSpan.innerHTML = tab.title;
+                        uSpan.innerHTML = tab.url;
+                        tabsList[i].style.display = '';
+                    }
+                    // Hide the unmatched tab items.
+                    else {
+                        tabsList[i].style.display = 'none';
+                    }
+                }
             }, 50);
         }
     );
