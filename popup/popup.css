@@ -29,6 +29,7 @@ ul.tabs {
 ul.tab {
     padding: 5px 10px;
     cursor: pointer;
+    border-left: 2px solid #fff;
     transition: background 0.2s linear,
                 color 0.2s linear,
                 border 0.2s linear;
