@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    width: 400px;
+    width: 500px;
     height: 500px;
 }
 ul {
@@ -22,17 +22,23 @@ div.search > input {
     box-shadow: 0 5px 10px #eee, 0 1px #ddd;
 }
 ul.tabs {
-    height: 460px;
+    height: 560px;
     overflow-y: auto;
     overflow-x: hidden;
 }
 ul.tab {
-    padding: 5px 10px;
+    margin-bottom: 2px;
+    padding: 3px 5px 3px 3px;
     cursor: pointer;
     border-left: 2px solid #fff;
     transition: background 0.2s linear,
                 color 0.2s linear,
                 border 0.2s linear;
+}
+ul.tab.active {
+    border-left: 2px solid #088a85;
+    background-color: #eee;
+    color: #088a85;
 }
 ul.tab:hover {
     border-left: 2px solid #2e2efe;
@@ -47,12 +53,15 @@ ul.tab img {
     width: 20px;
     height: 20px;
 }
+ul.tab strong {
+    background-color: #f2f5a9;
+}
 ul.tab > li.favicon {
     width: 20px;
     margin-right: 5px;
 }
 ul.tab > li.title {
-    width: calc(100% - 35px);
+    width: calc(100% - 30px);
 }
 ul.tab span.url {
     font-size: 10px;

@@ -5,17 +5,18 @@ var OpenTabs = {
     get: function (callback) {
         chrome.tabs.query({}, function (tabs) {
             var _tabs = [];
-            for (var t in tabs) {
-                if (tabs.hasOwnProperty(t)) {
-                    _tabs.push({
-                        id: tabs[t].id,
-                        url: tabs[t].url,
-                        title: tabs[t].title,
-                        windowId: tabs[t].windowId,
-                        favIconUrl: tabs[t].favIconUrl
-                    });
-                }
-            }
+
+            tabs.forEach(function (tab) {
+                _tabs.push({
+                    id: tab.id,
+                    url: tab.url,
+                    title: tab.title,
+                    active: tab.active,
+                    windowId: tab.windowId,
+                    favIconUrl: tab.favIconUrl
+                });
+            });
+            
             callback(_tabs);
         });
     },
