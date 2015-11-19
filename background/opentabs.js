@@ -13,10 +13,13 @@ var OpenTabs = {
                     title: tab.title,
                     active: tab.active,
                     windowId: tab.windowId,
-                    favIconUrl: tab.favIconUrl
+                    favIconUrl: tab.favIconUrl || (
+                        'chrome://favicon/' +
+                        tab.url.split('/').slice(0, 3).join('/')
+                    )
                 });
             });
-            
+
             callback(_tabs);
         });
     },

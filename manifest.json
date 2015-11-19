@@ -18,5 +18,9 @@
     "background": {
         "scripts": ["background/opentabs.js"]
     },
-    "permissions": ["*://*/*/", "tabs"]
+    "permissions": [
+        "*://*/*/",
+        "chrome://favicon/*",
+        "tabs"
+    ]
 }
