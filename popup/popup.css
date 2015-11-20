@@ -2,7 +2,6 @@ body {
     margin: 0;
     padding: 0;
     width: 500px;
-    height: 500px;
 }
 ul {
     margin: 0;
@@ -22,7 +21,7 @@ div.search > input {
     box-shadow: 0 5px 10px #eee, 0 1px #ddd;
 }
 ul.tabs {
-    height: 560px;
+    max-height: 560px;
     overflow-y: auto;
     overflow-x: hidden;
 }
